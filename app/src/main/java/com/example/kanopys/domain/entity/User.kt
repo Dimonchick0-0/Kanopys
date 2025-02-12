@@ -1,7 +1,11 @@
 package com.example.kanopys.domain.entity
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class User(
-    val id: Int,
-    val name: String,
-    val password: String
+    @SerialName("id") val id: Int,
+    @SerialName("name") val name: String,
+    @SerialName("password") val password: String
 )

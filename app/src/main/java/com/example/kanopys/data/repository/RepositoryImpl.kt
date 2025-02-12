@@ -1,12 +1,17 @@
-package com.example.kanopys.data
+package com.example.kanopys.data.repository
 
+import com.example.kanopys.data.localdatastore.LocalDataSourceImpl
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.domain.repository.UserRepository
+import javax.inject.Inject
 
 class RepositoryImpl private constructor(): UserRepository {
 
+    @Inject
+    lateinit var localDataSourceImpl: LocalDataSourceImpl
+
     override suspend fun registerAProfile(user: User) {
-        TODO("Not yet implemented")
+        localDataSourceImpl.registerUser(user)
     }
 
     override suspend fun logInToYourProfile(user: User) {
