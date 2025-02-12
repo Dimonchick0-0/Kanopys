@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.0"
 }
 
 android {
@@ -40,9 +41,13 @@ android {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-client-cio:3.0.3")
-    implementation("io.ktor:ktor-client-core:3.0.3")
-    implementation("io.ktor:ktor-client-auth:3.0.3")
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation (libs.dagger)
+    ksp(libs.dagger.compiler)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.auth)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
