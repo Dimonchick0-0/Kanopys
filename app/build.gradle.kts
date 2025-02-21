@@ -41,10 +41,12 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation (libs.dagger)
     ksp(libs.dagger.compiler)
+    implementation(libs.ktor.server.auth)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.auth)

@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.kanopys.di.ApplicationScope
 
-@Database(entities = [UserDatabase::class], version = 1, exportSchema = false)
+@ApplicationScope
+@Database(entities = [UserDatabase::class], version = 2, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): ProfileUserDao
 

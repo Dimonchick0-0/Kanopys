@@ -9,7 +9,8 @@ class MappingUser @Inject constructor() {
         return UserDatabase(
             id = user.id,
             name = user.name,
-            password = user.password
+            password = user.password,
+            token = user.token
         )
     }
 }
