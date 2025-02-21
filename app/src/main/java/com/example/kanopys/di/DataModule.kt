@@ -1,4 +1,4 @@
-package com.example.kanopys.di.datamodule
+package com.example.kanopys.di
 
 import android.app.Application
 import com.example.kanopys.data.database.AppDatabase
@@ -13,18 +13,17 @@ import dagger.Provides
 
 @Module
 interface DataModule {
-
     @Binds
     fun bindLocalDataSource(impl: LocalDataSourceImpl): LocalDataSource
 
+    @ApplicationScope
+    @Binds
+    fun bindUserRepository(impl: RepositoryImpl): UserRepository
+
     companion object {
         @Provides
-        fun provideUserDao(application: Application): ProfileUserDao {
+        fun provideProfileUserDao(application: Application): ProfileUserDao {
             return AppDatabase.getInstance(application).userDao()
-        }
-        @Provides
-        fun provideRepository(): UserRepository {
-            return RepositoryImpl.getInstance()
         }
     }
 }

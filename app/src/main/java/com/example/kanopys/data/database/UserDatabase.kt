@@ -8,5 +8,6 @@ data class UserDatabase(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    val password: String
+    val password: String,
+    val token: String
 )
