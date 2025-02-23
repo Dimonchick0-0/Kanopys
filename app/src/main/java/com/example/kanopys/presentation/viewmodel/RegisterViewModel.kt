@@ -14,8 +14,8 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _userRegister = MutableLiveData<User>()
-    val userRegister: LiveData<User>
-        get() = _userRegister
+
+    private var _resetErrorInputData = MutableLiveData<Boolean>()
 
     fun registerUser(name: String, password: String) {
         val nameUser = validateNameUser(name)
@@ -25,6 +25,35 @@ class RegisterViewModel @Inject constructor(
             _userRegister.value = newUser
             repositoryImpl.registerAProfile(newUser)
         }
+    }
+
+    fun resetErrorName() {
+        _resetErrorInputData.value = false
+    }
+
+    fun resetErrorPassword() {
+        _resetErrorInputData.value = false
+    }
+
+    fun resetErrorRepeatPassword() {
+        _resetErrorInputData.value = false
+    }
+
+    fun showError(name: String, password: String, repeatPassword: String): Boolean {
+        var result = true
+        if (name.isEmpty()) {
+            result = false
+            _resetErrorInputData.value = true
+        }
+        if (password.isEmpty()) {
+            result = false
+            _resetErrorInputData.value = true
+        }
+        if (repeatPassword.isEmpty()) {
+            result = false
+            _resetErrorInputData.value = true
+        }
+        return result
     }
 
     private fun validateNameUser(name: String?): String {
