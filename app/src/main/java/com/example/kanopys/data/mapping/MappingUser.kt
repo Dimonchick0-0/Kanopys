@@ -10,7 +10,7 @@ class MappingUser @Inject constructor() {
             id = user.id,
             name = user.name,
             password = user.password,
-            token = user.token
+            email = user.email
         )
     }
 }

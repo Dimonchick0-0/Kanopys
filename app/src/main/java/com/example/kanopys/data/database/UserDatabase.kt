@@ -9,5 +9,5 @@ data class UserDatabase(
     val id: Int,
     val name: String,
     val password: String,
-    val token: String
+    val email: String
 )

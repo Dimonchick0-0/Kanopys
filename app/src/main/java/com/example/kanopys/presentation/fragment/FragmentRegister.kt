@@ -4,11 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.kanopys.R
@@ -16,6 +17,11 @@ import com.example.kanopys.databinding.FragmentRegisterBinding
 import com.example.kanopys.presentation.KanopysApplication
 import com.example.kanopys.presentation.viewmodel.RegisterViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,6 +47,8 @@ class FragmentRegister : Fragment() {
         ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class]
     }
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,12 +59,13 @@ class FragmentRegister : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = Firebase.auth
         observeViewModel()
         changingTheInputDataUser()
     }
 
     private fun changingTheInputDataUser() {
-        binding.edName.addTextChangedListener(object: TextWatcher {
+        binding.edName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -66,7 +75,7 @@ class FragmentRegister : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
-        binding.edPassword.addTextChangedListener(object: TextWatcher {
+        binding.edPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -76,7 +85,7 @@ class FragmentRegister : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
-        binding.edRepeatPassword.addTextChangedListener(object: TextWatcher {
+        binding.edRepeatPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -86,6 +95,46 @@ class FragmentRegister : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+        binding.edEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.resetErrorEmail()
+                binding.tilUserEmail.error = null
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun createAccount(name: String, password: String, email: String) {
+        showProgressBar()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Регистрация прошла успешно!",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    viewModel.registerUser(name, email, password)
+                } else {
+                    Log.w(TAG, "createUserWithEmail:failure", it.exception)
+                    Toast.makeText(
+                        requireContext(),
+                        "Регистрация не успешна!",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
+    }
+
+    private fun showProgressBar() {
+        lifecycleScope.launch {
+            binding.progressBar2.visibility = View.VISIBLE
+            delay(1200)
+            binding.progressBar2.visibility = View.GONE
+        }
     }
 
     private fun observeViewModel() {
@@ -93,10 +142,12 @@ class FragmentRegister : Fragment() {
             val name = binding.edName.text.toString()
             val password = binding.edPassword.text.toString()
             val repeatPassword = binding.edRepeatPassword.text.toString()
+            val email = binding.edEmail.text.toString().trim()
             when {
                 password == repeatPassword -> {
-                    checkingTheEnteredData(name, password)
+                    checkingTheEnteredData(name = name, password = password, email = email)
                 }
+
                 password != repeatPassword -> {
                     binding.tilUserPassword.apply {
                         error = getString(R.string.passwords_not_match)
@@ -106,29 +157,64 @@ class FragmentRegister : Fragment() {
                     }
                 }
             }
+            checkingEmailUser(email)
         }
     }
 
-    private fun checkingTheEnteredData(name: String, password: String, repeatPassword: String = "") {
-        when {
-            name.isNotEmpty() && password.isNotEmpty() -> {
-                lifecycleScope.launch {
-                    viewModel.registerUser(name, password)
+    private fun checkingEmailUser(email: String) {
+        lifecycleScope.launch {
+            val result = viewModel.checkForEmail(email)
+            if (result) {
+                binding.tilUserEmail.apply {
+                    error = getString(R.string.this_mail_has_already_been_register)
+                }
+                binding.progressBar2.visibility = View.GONE
+            }
+            if (!result && email.isNotEmpty()) {
+                binding.tilUserEmail.apply {
+                    viewModel.resetErrorEmail()
+                    error = null
                 }
             }
-            name.isEmpty() && password.isEmpty() && repeatPassword.isEmpty() -> {
-                viewModel.showError(name, password, repeatPassword)
+        }
+    }
+
+    private fun checkingTheEnteredData(
+        name: String,
+        password: String,
+        repeatPassword: String = "",
+        email: String
+    ) {
+        when {
+            name.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty() -> {
+                if (password.length < 6 && repeatPassword.length < 6) {
+                    binding.tilUserPassword.error = getString(R.string.min_of_6_characters)
+                    binding.tilUserRepeatPassword.error = getString(R.string.min_of_6_characters)
+                } else {
+                    lifecycleScope.launch {
+                        createAccount(name, password, email)
+                    }
+                }
+            }
+
+            name.isEmpty() && password.isEmpty() && repeatPassword.isEmpty() && email.isEmpty() -> {
+                viewModel.showError(name, password, repeatPassword, email)
                 binding.apply {
                     tilUserName.error = getString(R.string.error_name)
                     tilUserPassword.error = getString(R.string.error_password)
                     tilUserRepeatPassword.error = getString(R.string.error_repeat_password)
+                    tilUserEmail.error = getString(R.string.error_email)
                 }
             }
         }
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "TESTREGISTER"
     }
 }

@@ -3,8 +3,8 @@ package com.example.kanopys.di
 import android.app.Application
 import com.example.kanopys.data.database.AppDatabase
 import com.example.kanopys.data.database.ProfileUserDao
-import com.example.kanopys.data.localdatastore.LocalDataSource
-import com.example.kanopys.data.localdatastore.LocalDataSourceImpl
+import com.example.kanopys.data.localdatasoure.LocalDataSource
+import com.example.kanopys.data.localdatasoure.LocalDataSourceImpl
 import com.example.kanopys.data.repository.RepositoryImpl
 import com.example.kanopys.domain.repository.UserRepository
 import dagger.Binds
