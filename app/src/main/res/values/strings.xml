@@ -7,4 +7,7 @@
     <string name="error_password">Вы не ввели пароль</string>
     <string name="error_repeat_password">Вы не ввели повторный пароль</string>
     <string name="passwords_not_match">Не совпадают пароли</string>
+    <string name="error_email">Вы не ввели адрес почты</string>
+    <string name="min_of_6_characters">Минимум 6 символов</string>
+    <string name="this_mail_has_already_been_register">Данная почта уже зарегистрирована</string>
 </resources>

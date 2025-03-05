@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.kanopys.di.ApplicationScope
 
 @ApplicationScope
-@Database(entities = [UserDatabase::class], version = 2, exportSchema = false)
+@Database(entities = [UserDatabase::class], version = 4, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): ProfileUserDao
 

@@ -1,14 +1,17 @@
 package com.example.kanopys.data.repository
 
-import com.example.kanopys.data.localdatastore.LocalDataSourceImpl
+import com.example.kanopys.data.localdatasoure.LocalDataSourceImpl
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.domain.repository.UserRepository
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor() : UserRepository {
+class RepositoryImpl @Inject constructor(
+    private val localDataSourceImpl: LocalDataSourceImpl
+) : UserRepository {
 
-    @Inject
-    lateinit var localDataSourceImpl: LocalDataSourceImpl
+    suspend fun checkForEmail(emailUser: String): Boolean {
+        return localDataSourceImpl.checkForEmail(emailUser)
+    }
 
     override suspend fun registerAProfile(user: User) {
         localDataSourceImpl.registerUser(user)
