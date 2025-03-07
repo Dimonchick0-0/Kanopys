@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilLogin"
+        android:id="@+id/tilEmailAuth"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,10 +24,11 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginUser"
+            android:id="@+id/emailUserEd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ваш логин" />
+            android:inputType="textEmailAddress"
+            android:hint="Ваа почта" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilLogin"
+        app:layout_constraintTop_toBottomOf="@+id/tilEmailAuth"
         app:shapeAppearance="@style/Rounded"
         tools:ignore="MissingConstraints">
 
@@ -68,7 +69,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAuthUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -88,10 +89,10 @@
         android:layout_marginTop="24dp"
         android:text="Нет аккаунта?"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/goToRegister"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAuthUser" />
 
     <TextView
         android:id="@+id/goToRegister"
@@ -102,5 +103,5 @@
         android:text="@string/register_user"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAuthUser" />
 </androidx.constraintlayout.widget.ConstraintLayout>

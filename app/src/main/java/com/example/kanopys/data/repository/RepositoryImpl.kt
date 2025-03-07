@@ -1,5 +1,6 @@
 package com.example.kanopys.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.kanopys.data.localdatasoure.LocalDataSourceImpl
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.domain.repository.UserRepository
@@ -17,11 +18,8 @@ class RepositoryImpl @Inject constructor(
         localDataSourceImpl.registerUser(user)
     }
 
-    override suspend fun logInToYourProfile(user: User) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun logOutOfYourProfile(user: User) {
-        TODO("Not yet implemented")
+    override suspend fun authenticationUser(emailUser: String, passwordUser: String): User {
+        val user = localDataSourceImpl.authUser(emailUser, passwordUser)
+        return user
     }
 }

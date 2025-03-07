@@ -5,7 +5,5 @@ import com.example.kanopys.domain.entity.User
 interface UserRepository {
     suspend fun registerAProfile(user: User)
 
-    suspend fun logInToYourProfile(user: User)
-
-    suspend fun logOutOfYourProfile(user: User)
+    suspend fun authenticationUser(emailUser: String, passwordUser: String): User
 }

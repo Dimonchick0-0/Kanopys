@@ -16,4 +16,8 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun checkForEmail(emailUser: String): Boolean {
         return profileUserDao.checkForEmail(emailUser)
     }
+
+    override suspend fun authUser(emailUser: String, passwordUser: String): User {
+        return profileUserDao.authUser(emailUser, passwordUser)
+    }
 }
