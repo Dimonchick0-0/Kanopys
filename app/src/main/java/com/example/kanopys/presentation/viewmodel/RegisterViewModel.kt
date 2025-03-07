@@ -1,10 +1,12 @@
 package com.example.kanopys.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kanopys.data.repository.RepositoryImpl
 import com.example.kanopys.domain.entity.User
+import com.example.kanopys.presentation.state.StateAuthentication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,7 +18,9 @@ class RegisterViewModel @Inject constructor(
 
     private var _userRegister = MutableLiveData<User>()
 
-    private var _resetErrorInputData = MutableLiveData<Boolean>()
+    private var _state = MutableLiveData<StateAuthentication>()
+    val state: LiveData<StateAuthentication>
+        get() = _state
 
     fun registerUser(name: String, email: String, password: String) {
         val nameUser = validateNameUser(name)
@@ -35,22 +39,6 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun resetErrorName() {
-        _resetErrorInputData.value = false
-    }
-
-    fun resetErrorPassword() {
-        _resetErrorInputData.value = false
-    }
-
-    fun resetErrorRepeatPassword() {
-        _resetErrorInputData.value = false
-    }
-
-    fun resetErrorEmail() {
-        _resetErrorInputData.value = false
-    }
-
     fun showError(
         name: String,
         password: String,
@@ -60,25 +48,25 @@ class RegisterViewModel @Inject constructor(
         var result = true
         if (name.isEmpty()) {
             result = false
-            _resetErrorInputData.value = true
+            _state.value = StateAuthentication.Error
         }
         if (password.isEmpty()) {
             result = false
-            _resetErrorInputData.value = true
+            _state.value = StateAuthentication.Error
         }
         if (repeatPassword.isEmpty()) {
             result = false
-            _resetErrorInputData.value = true
+            _state.value = StateAuthentication.Error
         }
         if (email.isEmpty()) {
             result = false
-            _resetErrorInputData.value = true
+            _state.value = StateAuthentication.Error
         }
         return result
     }
 
     private fun validateNameUser(name: String?): String {
-        return name?.trim() ?: ""
+        return name?.trim()?.filter { !it.isWhitespace() } ?: ""
     }
 
     private fun validatePasswordUser(password: String?): String {

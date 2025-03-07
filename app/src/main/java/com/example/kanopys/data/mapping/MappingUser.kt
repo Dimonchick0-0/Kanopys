@@ -13,4 +13,13 @@ class MappingUser @Inject constructor() {
             email = user.email
         )
     }
+
+    fun mapDatabaseUserToEntityUser(database: UserDatabase): User {
+        return User(
+            id = database.id,
+            name = database.name,
+            password = database.password,
+            email = database.email
+        )
+    }
 }

@@ -2,8 +2,6 @@ package com.example.kanopys.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import com.example.kanopys.R
 import com.example.kanopys.databinding.FragmentRegisterBinding
 import com.example.kanopys.presentation.KanopysApplication
+import com.example.kanopys.presentation.TextWatcherAdapter
+import com.example.kanopys.presentation.state.StateAuthentication
 import com.example.kanopys.presentation.viewmodel.RegisterViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -65,45 +64,25 @@ class FragmentRegister : Fragment() {
     }
 
     private fun changingTheInputDataUser() {
-        binding.edName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+        binding.edName.addTextChangedListener(object : TextWatcherAdapter() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetErrorName()
                 binding.tilUserName.error = null
             }
-
-            override fun afterTextChanged(s: Editable?) {}
         })
-        binding.edPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+        binding.edPassword.addTextChangedListener(object : TextWatcherAdapter() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetErrorPassword()
                 binding.tilUserPassword.error = null
             }
-
-            override fun afterTextChanged(s: Editable?) {}
         })
-        binding.edRepeatPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+        binding.edRepeatPassword.addTextChangedListener(object : TextWatcherAdapter() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetErrorRepeatPassword()
                 binding.tilUserRepeatPassword.error = null
             }
-
-            override fun afterTextChanged(s: Editable?) {}
         })
-        binding.edEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
+        binding.edEmail.addTextChangedListener(object : TextWatcherAdapter() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetErrorEmail()
                 binding.tilUserEmail.error = null
             }
-
-            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
@@ -172,8 +151,22 @@ class FragmentRegister : Fragment() {
             }
             if (!result && email.isNotEmpty()) {
                 binding.tilUserEmail.apply {
-                    viewModel.resetErrorEmail()
                     error = null
+                }
+            }
+        }
+    }
+
+    private fun getStateError() {
+        viewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                StateAuthentication.Error -> {
+                    binding.apply {
+                        tilUserName.error = getString(R.string.error_name)
+                        tilUserPassword.error = getString(R.string.error_password)
+                        tilUserRepeatPassword.error = getString(R.string.error_repeat_password)
+                        tilUserEmail.error = getString(R.string.error_email)
+                    }
                 }
             }
         }
@@ -199,12 +192,7 @@ class FragmentRegister : Fragment() {
 
             name.isEmpty() && password.isEmpty() && repeatPassword.isEmpty() && email.isEmpty() -> {
                 viewModel.showError(name, password, repeatPassword, email)
-                binding.apply {
-                    tilUserName.error = getString(R.string.error_name)
-                    tilUserPassword.error = getString(R.string.error_password)
-                    tilUserRepeatPassword.error = getString(R.string.error_repeat_password)
-                    tilUserEmail.error = getString(R.string.error_email)
-                }
+                getStateError()
             }
         }
     }
