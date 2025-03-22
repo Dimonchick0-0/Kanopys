@@ -1,5 +1,6 @@
 package com.example.kanopys.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,8 @@ import com.example.kanopys.data.repository.RepositoryImpl
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.presentation.state.StateAuthentication
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -54,5 +57,9 @@ class MainViewModel @Inject constructor(
 
     private fun validatePassword(password: String): String {
         return password.trim().filter { !it.isWhitespace() }
+    }
+
+    companion object {
+        private const val TAG = "TESTAUTH"
     }
 }

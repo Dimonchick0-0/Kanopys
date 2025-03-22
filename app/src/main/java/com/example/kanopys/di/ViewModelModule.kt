@@ -2,6 +2,7 @@ package com.example.kanopys.di
 
 import androidx.lifecycle.ViewModel
 import com.example.kanopys.presentation.viewmodel.MainViewModel
+import com.example.kanopys.presentation.viewmodel.MovieScreenViewModel
 import com.example.kanopys.presentation.viewmodel.RegisterViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,4 +19,9 @@ interface ViewModelModule {
     @ViewModelKey(RegisterViewModel::class)
     @Binds
     fun bindRegisterViewModel(viewModel: RegisterViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(MovieScreenViewModel::class)
+    @Binds
+    fun bindMovieScreenViewModel(viewModel: MovieScreenViewModel): ViewModel
 }

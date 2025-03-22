@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class User(
     @SerialName("id") val id: Int = UNDEFINED_ID,
-    @SerialName("name") val name: String = UNDEFINED_NAME,
+    @SerialName("display_name") val displayName: String = UNDEFINED_NAME,
     @SerialName("password") val password: String,
     @SerialName("email") val email: String
 ) {
