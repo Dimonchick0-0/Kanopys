@@ -1,6 +1,9 @@
 [versions]
 agp = "8.7.3"
+converterGson = "2.7.0"
 dagger = "2.52"
+firebaseBom = "33.10.0"
+glide = "4.16.0"
 googleServices = "4.4.2"
 kotlin = "2.1.10"
 coreKtx = "1.15.0"
@@ -10,12 +13,16 @@ espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesCore = "1.10.1"
 kotlinxSerializationJson = "1.8.0"
+kotlinxSerializationJsonVersion = "1.7.3"
 ktorClientCio = "3.1.0"
 lifecycleViewmodelKtx = "2.8.7"
+loggingInterceptor = "4.10.0"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
 navigationFragment = "2.8.7"
+okhttp = "4.10.0"
+retrofit = "2.9.0"
 roomRuntime = "2.6.1"
 
 [libraries]
@@ -28,9 +35,12 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -38,13 +48,17 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-serialization-json-v173 = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorClientCio" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCio" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktorClientCio" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

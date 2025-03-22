@@ -27,7 +27,7 @@ class RegisterViewModel @Inject constructor(
         val passwordUser = validatePasswordUser(password)
         val emailUser = validateEmailUser(email)
         viewModelScope.launch {
-            val newUser = User(name = nameUser, password = passwordUser, email = emailUser)
+            val newUser = User(displayName = nameUser, password = passwordUser, email = emailUser)
             _userRegister.value = newUser
             repositoryImpl.registerAProfile(newUser)
         }

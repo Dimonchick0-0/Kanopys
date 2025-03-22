@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/kanopysHome"
+        android:icon="@drawable/ic_home"
+        android:title="Главное"
+        android:orderInCategory="1"
+        />
+    <item
+        android:id="@+id/kanopysSearch"
+        android:icon="@drawable/ic_search"
+        android:title="Поиск"
+        android:orderInCategory="2"
+        />
+    <item
+        android:id="@+id/kanopysProfile"
+        android:icon="@drawable/ic_profile"
+        android:title="Профиль"
+        android:orderInCategory="3"
+        />
+</menu>

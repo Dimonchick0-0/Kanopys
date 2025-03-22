@@ -19,7 +19,9 @@ import com.example.kanopys.presentation.viewmodel.RegisterViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -97,6 +99,15 @@ class FragmentRegister : Fragment() {
                         Toast.LENGTH_SHORT,
                     ).show()
                     viewModel.registerUser(name, email, password)
+                    val user = Firebase.auth.currentUser
+                    val profileUpdate = userProfileChangeRequest {
+                        displayName = name
+                    }
+                    user?.updateProfile(profileUpdate)?.addOnCompleteListener {update->
+                        if (update.isSuccessful) {
+                            Log.d(TAG, user.displayName.toString())
+                        }
+                    }
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", it.exception)
                     Toast.makeText(

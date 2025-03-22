@@ -22,6 +22,7 @@ import com.example.kanopys.presentation.viewmodel.MainViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -72,8 +73,8 @@ class FragmentAuthorization : Fragment() {
                 if (it.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
                     lifecycleScope.launch {
-                        val user = viewModel.authUser(email, password)
-//                        Toast.makeText(requireContext(), "Привет, ${user.name}", Toast.LENGTH_SHORT).show()
+                        viewModel.authUser(email, password)
+                        findNavController().navigate(R.id.action_fragmentAuthorization_to_profileFragment)
                     }
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", it.exception)
