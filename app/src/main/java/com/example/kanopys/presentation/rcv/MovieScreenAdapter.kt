@@ -16,6 +16,10 @@ class MovieScreenAdapter: ListAdapter<Movie, MovieScreenAdapter.MovieViewHolder>
         val binding = FilmItemBinding.bind(item)
         fun setData(movie: Movie) {
             binding.apply {
+                Glide.with(itemView)
+                    .load(movie.poster.url)
+                    .override(1000, 600)
+                    .into(imageMovie)
                 titleMovie.text = movie.name
             }
         }

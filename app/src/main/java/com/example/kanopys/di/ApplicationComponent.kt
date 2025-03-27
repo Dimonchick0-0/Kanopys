@@ -6,6 +6,7 @@ import com.example.kanopys.presentation.fragment.FragmentAuthorization
 import com.example.kanopys.presentation.fragment.FragmentRegister
 import com.example.kanopys.presentation.fragment.ProfileFragment
 import com.example.kanopys.presentation.fragment.ScreenMoviesFragment
+import com.example.kanopys.presentation.fragment.SearchMovieFragment
 import dagger.BindsInstance
 import dagger.Component
 
@@ -18,6 +19,7 @@ interface ApplicationComponent {
     fun inject(fragmentRegister: FragmentAuthorization)
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: ScreenMoviesFragment)
+    fun inject(fragment: SearchMovieFragment)
 
     @Component.Factory
     interface ApplicationComponentFactory {
