@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_screenMoviesFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_screenMoviesFragment_to_searchMovieFragment"
+            app:destination="@id/searchMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -38,4 +41,9 @@
             android:id="@+id/action_fragmentAuthorization_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchMovieFragment"
+        android:name="com.example.kanopys.presentation.fragment.SearchMovieFragment"
+        android:label="fragment_search_movie"
+        tools:layout="@layout/fragment_search_movie" />
 </navigation>
