@@ -4,6 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Poster(
+data class PosterDTO(
     @SerialName("url") val url: String
 )

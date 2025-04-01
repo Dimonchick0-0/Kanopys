@@ -51,11 +51,14 @@
 
     <Button
         android:id="@+id/btnExitUser"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="156dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginBottom="24dp"
-        android:text="Button"
+        android:backgroundTint="@color/black"
+        android:text="Выйти из аккаунта"
         app:layout_constraintBottom_toTopOf="@+id/btnNavMenu"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

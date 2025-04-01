@@ -3,6 +3,7 @@ package com.example.kanopys.di
 import androidx.lifecycle.ViewModel
 import com.example.kanopys.presentation.viewmodel.MainViewModel
 import com.example.kanopys.presentation.viewmodel.MovieScreenViewModel
+import com.example.kanopys.presentation.viewmodel.MovieViewModel
 import com.example.kanopys.presentation.viewmodel.RegisterViewModel
 import com.example.kanopys.presentation.viewmodel.SearchViewModel
 import dagger.Binds
@@ -30,4 +31,9 @@ interface ViewModelModule {
     @ViewModelKey(SearchViewModel::class)
     @Binds
     fun bindSearchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(MovieViewModel::class)
+    @Binds
+    fun bindMovieViewModel(viewModel: MovieViewModel): ViewModel
 }

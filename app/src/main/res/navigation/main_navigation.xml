@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_profileFragment_to_screenMoviesFragment"
             app:destination="@id/screenMoviesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_searchMovieFragment"
+            app:destination="@id/searchMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentRegister"
@@ -45,5 +48,25 @@
         android:id="@+id/searchMovieFragment"
         android:name="com.example.kanopys.presentation.fragment.SearchMovieFragment"
         android:label="fragment_search_movie"
-        tools:layout="@layout/fragment_search_movie" />
+        tools:layout="@layout/fragment_search_movie" >
+        <action
+            android:id="@+id/action_searchMovieFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_searchMovieFragment_to_screenMoviesFragment"
+            app:destination="@id/screenMoviesFragment" />
+        <action
+            android:id="@+id/action_searchMovieFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.example.kanopys.presentation.fragment.MovieFragment"
+        android:label="fragment_movie"
+        tools:layout="@layout/fragment_movie" >
+
+        <argument
+            android:name="idMovie"
+            app:argType="integer" />
+    </fragment>
 </navigation>

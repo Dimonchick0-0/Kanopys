@@ -78,10 +78,15 @@ class ProfileFragment : Fragment(), KanopysNavigation {
             setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.kanopysHome -> launchHomeFragment()
+                    R.id.kanopysSearch -> launchSearchFragment()
                 }
                 true
             }
         }
+    }
+
+    private fun launchSearchFragment() {
+        findNavController().navigate(R.id.action_profileFragment_to_searchMovieFragment)
     }
 
     private fun launchHomeFragment() {

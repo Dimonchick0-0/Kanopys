@@ -1,8 +1,11 @@
 package com.example.kanopys.data.repository
 
 import com.example.kanopys.data.localdatasoure.LocalDataSourceImpl
+import com.example.kanopys.domain.entity.Movie
+import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -13,6 +16,10 @@ class RepositoryImpl @Inject constructor(
         return localDataSourceImpl.checkForEmail(emailUser)
     }
 
+    fun loadAllFavoriteMovies(): Flow<List<Movie>> {
+        return localDataSourceImpl.loadAllFavoriteMovies()
+    }
+
     override suspend fun registerAProfile(user: User) {
         localDataSourceImpl.registerUser(user)
     }
@@ -20,5 +27,13 @@ class RepositoryImpl @Inject constructor(
     override suspend fun authenticationUser(emailUser: String, passwordUser: String): User {
         val user = localDataSourceImpl.authUser(emailUser, passwordUser)
         return user
+    }
+
+    override suspend fun addingToFavorites(item: Movie) {
+        localDataSourceImpl.addingToFavorite(item)
+    }
+
+    override suspend fun deleteFromFavorite(id: Int) {
+        localDataSourceImpl.deleteFromFavorite(id)
     }
 }

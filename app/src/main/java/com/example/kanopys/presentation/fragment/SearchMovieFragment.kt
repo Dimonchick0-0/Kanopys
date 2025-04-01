@@ -2,6 +2,7 @@ package com.example.kanopys.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Layout.Directions
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.example.kanopys.R
 import com.example.kanopys.databinding.FragmentSearchMovieBinding
+import com.example.kanopys.domain.entity.Movie
 import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.presentation.KanopysApplication
 import com.example.kanopys.presentation.rcv.MovieScreenAdapter
@@ -57,6 +63,29 @@ class SearchMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setMovieAdapter()
+        btnNavigate()
+        getMovieByIdAndLaunchMovieFragment()
+    }
+
+    private fun btnNavigate() {
+        binding.btnNavMenu.apply {
+            selectedItemId = R.id.kanopysSearch
+            setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.kanopysProfile -> navigateToProfile()
+                    R.id.kanopysHome -> navigateToScreenMovie()
+                }
+                true
+            }
+        }
+    }
+
+    private fun navigateToProfile() {
+        findNavController().navigate(R.id.action_searchMovieFragment_to_profileFragment)
+    }
+
+    private fun navigateToScreenMovie() {
+        findNavController().navigate(R.id.action_searchMovieFragment_to_screenMoviesFragment)
     }
 
     private fun setMovieAdapter() {
@@ -68,7 +97,7 @@ class SearchMovieFragment : Fragment() {
         requestAndReceiveAMovie()
     }
 
-        private fun requestAndReceiveAMovie() {
+    private fun requestAndReceiveAMovie() {
         binding.searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 checkingAndReceiveAMovie(query)
@@ -79,14 +108,24 @@ class SearchMovieFragment : Fragment() {
         })
     }
 
+    private fun getMovieByIdAndLaunchMovieFragment() {
+        movieAdapter.onClickGetMovie = {
+            findNavController().navigate(
+                SearchMovieFragmentDirections.actionSearchMovieFragmentToMovieFragment(it.id)
+            )
+        }
+
+    }
+
     private fun checkingAndReceiveAMovie(query: String) {
         lifecycleScope.launch {
             runCatching {
                 getMovie(1, 1, query)
-                    .onEach { it.docs.forEach { movie ->
-                        movieAdapter.submitList(it.docs)
-                        Log.d(TAG, movie.poster.url)
-                    } }.collect()
+                    .onEach {
+                        it.docs.forEach { movie ->
+                            movieAdapter.submitList(it.docs)
+                        }
+                    }.collect()
             }.onFailure {
                 Toast.makeText(
                     requireContext(),
