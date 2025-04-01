@@ -12,15 +12,19 @@ import com.example.kanopys.domain.entity.Movie
 
 class MovieScreenAdapter: ListAdapter<Movie, MovieScreenAdapter.MovieViewHolder>(MovieDiffUtilCallback()) {
 
+    var onClickGetMovie: ((Movie) -> Unit)? = null
+
     class MovieViewHolder(item: View): ViewHolder(item) {
-        val binding = FilmItemBinding.bind(item)
+        private val binding = FilmItemBinding.bind(item)
         fun setData(movie: Movie) {
             binding.apply {
                 Glide.with(itemView)
                     .load(movie.poster.url)
-                    .override(1000, 600)
+                    .override(500, 300)
                     .into(imageMovie)
                 titleMovie.text = movie.name
+                yearMovie.text = String.format("%s", movie.year)
+                ratingMovie.text = String.format("%s", movie.rating.imdb)
             }
         }
     }
@@ -37,5 +41,8 @@ class MovieScreenAdapter: ListAdapter<Movie, MovieScreenAdapter.MovieViewHolder>
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
         holder.setData(item)
+        holder.itemView.setOnClickListener {
+            onClickGetMovie?.invoke(item)
+        }
     }
 }

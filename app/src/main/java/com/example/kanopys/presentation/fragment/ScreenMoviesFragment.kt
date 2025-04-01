@@ -63,16 +63,27 @@ class ScreenMoviesFragment : Fragment(), KanopysNavigation {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         screenNavigation()
+        setAdapter()
     }
 
-//    private fun setAdapter() {
-//        binding.rcvMovie.apply {
-//            layoutManager = GridLayoutManager(context, 1)
-//            movieAdapter = MovieScreenAdapter()
-//            adapter = movieAdapter
-//        }
-//        requestAndReceiveAMovie()
-//    }
+    private fun setAdapter() {
+        binding.rcvSelectedMovie.apply {
+            layoutManager = GridLayoutManager(context, 1)
+            movieAdapter = MovieScreenAdapter()
+            adapter = movieAdapter
+        }
+        setList()
+    }
+
+    private fun setList() {
+        lifecycleScope.launch {
+            viewModel.loadAllFavoriteMovies().onEach {
+                movieAdapter.submitList(it)
+            }
+                .distinctUntilChanged()
+                .collect()
+        }
+    }
 
     override fun screenNavigation() {
         binding.btnNavMenu.apply {

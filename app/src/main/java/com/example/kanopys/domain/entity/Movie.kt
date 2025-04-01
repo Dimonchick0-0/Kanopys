@@ -7,5 +7,8 @@ import kotlinx.serialization.Serializable
 data class Movie(
     @SerialName("id") val id: Int,
     @SerialName("name") val name: String,
-    @SerialName("poster") val poster: Poster
+    @SerialName("year") val year: Int,
+    @SerialName("poster") val poster: PosterDTO,
+    @SerialName("rating") val rating: RatingDTO,
+    @SerialName("description") val description: String
 )
