@@ -2,12 +2,10 @@ package com.example.kanopys.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kanopys.R
@@ -16,10 +14,7 @@ import com.example.kanopys.presentation.KanopysApplication
 import com.example.kanopys.presentation.navigationscreeninterface.KanopysNavigation
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
-import com.google.firebase.auth.userProfileChangeRequest
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment(), KanopysNavigation {

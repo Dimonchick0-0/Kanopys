@@ -2,7 +2,6 @@ package com.example.kanopys.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Layout.Directions
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,16 +13,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kanopys.R
 import com.example.kanopys.databinding.FragmentSearchMovieBinding
-import com.example.kanopys.domain.entity.Movie
 import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.presentation.KanopysApplication
 import com.example.kanopys.presentation.rcv.MovieScreenAdapter
+import com.example.kanopys.presentation.state.ScreenStateMoviesSearch
 import com.example.kanopys.presentation.viewmodel.SearchViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,6 +60,7 @@ class SearchMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        stateUI()
         setMovieAdapter()
         btnNavigate()
         getMovieByIdAndLaunchMovieFragment()
@@ -100,7 +99,9 @@ class SearchMovieFragment : Fragment() {
     private fun requestAndReceiveAMovie() {
         binding.searchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                checkingAndReceiveAMovie(query)
+                lifecycleScope.launch {
+                    viewModel.channel.send(query)
+                }
                 return false
             }
 
@@ -114,30 +115,35 @@ class SearchMovieFragment : Fragment() {
                 SearchMovieFragmentDirections.actionSearchMovieFragmentToMovieFragment(it.id)
             )
         }
-
     }
 
-    private fun checkingAndReceiveAMovie(query: String) {
-        lifecycleScope.launch {
-            runCatching {
-                getMovie(1, 1, query)
-                    .onEach {
-                        it.docs.forEach { movie ->
-                            movieAdapter.submitList(it.docs)
-                        }
-                    }.collect()
-            }.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Отсутствует подключение к Интернету!",
-                    Toast.LENGTH_SHORT
-                ).show()
+    private fun stateUI() {
+        viewModel.state.onEach {
+            when (it) {
+                ScreenStateMoviesSearch.InitialState -> {
+                    Log.d(TAG, "Начальное состояние")
+                }
+
+                is ScreenStateMoviesSearch.LoadedMovies -> {
+                    movieAdapter.submitList(it.movie.docs)
+                }
+
+                ScreenStateMoviesSearch.Loading -> {
+                    Log.d(TAG, "Пошла загрузка")
+                }
+
+                ScreenStateMoviesSearch.NotFoundMovies -> {
+                    Log.d(TAG, "Не найден фильм")
+                }
+                ScreenStateMoviesSearch.InternetError -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Проблема с интернетом!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        }
-    }
-
-    private fun getMovie(page: Int, limit: Int, title: String): Flow<Movies> {
-        return viewModel.searchMovie(page, limit, title)
+        }.launchIn(lifecycleScope)
     }
 
     override fun onDestroy() {

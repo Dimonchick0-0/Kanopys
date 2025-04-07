@@ -11,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.kanopys.databinding.FragmentMovieBinding
-import com.example.kanopys.domain.entity.Movie
 import com.example.kanopys.presentation.KanopysApplication
 import com.example.kanopys.presentation.viewmodel.MovieViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

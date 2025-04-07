@@ -1,7 +1,6 @@
 package com.example.kanopys.data.localdatasoure
 
 import com.example.kanopys.domain.entity.Movie
-import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 
