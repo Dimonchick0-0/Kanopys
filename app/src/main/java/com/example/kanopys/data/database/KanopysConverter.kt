@@ -1,8 +1,6 @@
 package com.example.kanopys.data.database
 
 import androidx.room.TypeConverter
-import com.example.kanopys.domain.entity.Movie
-import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.PosterDTO
 import com.example.kanopys.domain.entity.RatingDTO
 

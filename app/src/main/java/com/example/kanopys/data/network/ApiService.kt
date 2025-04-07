@@ -2,6 +2,8 @@ package com.example.kanopys.data.network
 
 import com.example.kanopys.domain.entity.Movie
 import com.example.kanopys.domain.entity.Movies
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -15,5 +17,5 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("query") title: String
-    ): Movies
+    ): Response<Movies>
 }

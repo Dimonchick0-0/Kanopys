@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.kanopys.domain.entity.Movie
-import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 

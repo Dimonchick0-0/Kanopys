@@ -2,7 +2,6 @@ package com.example.kanopys.data.repository
 
 import com.example.kanopys.data.localdatasoure.LocalDataSourceImpl
 import com.example.kanopys.domain.entity.Movie
-import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.User
 import com.example.kanopys.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
