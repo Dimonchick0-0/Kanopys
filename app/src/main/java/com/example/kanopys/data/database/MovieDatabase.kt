@@ -2,6 +2,7 @@ package com.example.kanopys.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.kanopys.data.network.PersonsDTO
 import com.example.kanopys.domain.entity.PosterDTO
 import com.example.kanopys.domain.entity.RatingDTO
 
@@ -13,5 +14,6 @@ data class MovieDatabase(
     val year: Int,
     val poster: PosterDTO,
     val rating: RatingDTO,
-    val description: String
+    val description: String,
+    val persons: List<PersonsDTO>
 )

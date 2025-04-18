@@ -23,7 +23,8 @@ class MappingUser @Inject constructor() {
             year = movie.year,
             poster = movie.poster,
             rating = movie.rating,
-            description = movie.description
+            description = movie.description,
+            persons = movie.persons
         )
     }
 }
