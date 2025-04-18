@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.example.kanopys.di.ApplicationScope
 
 @ApplicationScope
-@Database(entities = [UserDatabase::class, MovieDatabase::class], version = 6, exportSchema = false)
+@Database(entities = [UserDatabase::class, MovieDatabase::class], version = 10, exportSchema = false)
 @TypeConverters(KanopysConverter::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun userDao(): ProfileUserDao

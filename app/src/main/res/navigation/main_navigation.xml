@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_screenMoviesFragment_to_searchMovieFragment"
             app:destination="@id/searchMovieFragment" />
+        <action
+            android:id="@+id/action_screenMoviesFragment_to_movieFragment"
+            app:destination="@id/movieFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

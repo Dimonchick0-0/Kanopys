@@ -10,5 +10,6 @@ interface LocalDataSource {
     suspend fun authUser(emailUser: String, passwordUser: String): User
     suspend fun addingToFavorite(movie: Movie)
     suspend fun deleteFromFavorite(id: Int)
+    suspend fun checkMoviesId(id: Int): Boolean
     fun loadAllFavoriteMovies(): Flow<List<Movie>>
 }

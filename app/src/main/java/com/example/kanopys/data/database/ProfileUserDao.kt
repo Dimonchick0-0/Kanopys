@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.kanopys.domain.entity.Movie
+import com.example.kanopys.domain.entity.Movies
 import com.example.kanopys.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 
@@ -21,6 +22,9 @@ interface ProfileUserDao {
 
     @Query("SELECT EXISTS(SELECT * FROM users WHERE email = :emailUser)")
     suspend fun checkForEmail(emailUser: String): Boolean
+
+    @Query("SELECT EXISTS(SELECT * FROM movieFavorite WHERE id = :idMovie)")
+    suspend fun checkMoviesId(idMovie: Int): Boolean
 
     @Query("SELECT * FROM users WHERE email = :emailUser AND password = :passwordUser")
     suspend fun authUser(emailUser: String, passwordUser: String): User

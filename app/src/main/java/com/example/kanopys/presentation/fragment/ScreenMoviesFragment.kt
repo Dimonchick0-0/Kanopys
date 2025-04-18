@@ -2,6 +2,7 @@ package com.example.kanopys.presentation.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.example.kanopys.presentation.viewmodel.MovieScreenViewModel
 import com.example.kanopys.presentation.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,7 +43,6 @@ class ScreenMoviesFragment : Fragment(), KanopysNavigation {
         component.inject(this)
     }
 
-
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[MovieScreenViewModel::class]
     }
@@ -61,6 +62,7 @@ class ScreenMoviesFragment : Fragment(), KanopysNavigation {
         super.onViewCreated(view, savedInstanceState)
         screenNavigation()
         setAdapter()
+        launchMovieFragment()
     }
 
     private fun setAdapter() {
@@ -73,13 +75,9 @@ class ScreenMoviesFragment : Fragment(), KanopysNavigation {
     }
 
     private fun setList() {
-        lifecycleScope.launch {
-            viewModel.loadAllFavoriteMovies().onEach {
-                movieAdapter.submitList(it)
-            }
-                .distinctUntilChanged()
-                .collect()
-        }
+        viewModel.loadAllFavoriteMovies().onEach {
+            movieAdapter.submitList(it)
+        }.distinctUntilChanged().launchIn(lifecycleScope)
     }
 
     override fun screenNavigation() {
@@ -101,6 +99,14 @@ class ScreenMoviesFragment : Fragment(), KanopysNavigation {
 
     private fun launchSearchFragment() {
         findNavController().navigate(R.id.action_screenMoviesFragment_to_searchMovieFragment)
+    }
+
+    private fun launchMovieFragment() {
+        movieAdapter.onClickGetMovie = {
+            findNavController().navigate(
+                ScreenMoviesFragmentDirections.actionScreenMoviesFragmentToMovieFragment(it.id)
+            )
+        }
     }
 
     override fun onDestroy() {
